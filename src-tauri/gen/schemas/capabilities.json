@@ -1,0 +1,1 @@
+{"main-capability":{"identifier":"main-capability","description":"Local main window; no filesystem, shell, HTTP or browser plugins.","local":true,"windows":["main"],"permissions":["core:default"]}}

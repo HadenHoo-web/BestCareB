@@ -1,0 +1,5 @@
+import { create } from 'zustand';
+import type { Activity, Overview, Theme } from '../types';
+import { getOverview, getActivities, saveTheme, desktop } from '../services/database';
+interface State { theme: Theme; status: 'loading' | 'ready' | 'preview' | 'error'; error: string | null; overview: Overview | null; activities: Activity[]; refresh: () => Promise<void>; setTheme: (theme: Theme) => Promise<void> }
+export const useApp = create<State>((set) => ({ theme: 'light', status: desktop ? 'loading' : 'preview', error: null, overview: null, activities: [], refresh: async () => { if (!desktop) return; set({ status: 'loading', error: null }); try { const [overview, activities] = await Promise.all([getOverview(), getActivities()]); set({ overview, activities, theme: overview.theme, status: 'ready' }); } catch { set({ status: 'error', error: 'Không thể đọc cơ sở dữ liệu. Hãy thử lại hoặc kiểm tra quyền truy cập thư mục ứng dụng.' }); } }, setTheme: async (theme) => { if (desktop) await saveTheme(theme); set({ theme }); } }));

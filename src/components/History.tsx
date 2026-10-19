@@ -1,0 +1,3 @@
+import { History as HistoryIcon } from 'lucide-react';
+import { useApp } from '../stores/app';
+export function History() { const { activities, overview } = useApp(); return <section className="card">{activities.length ? <table><thead><tr><th>Hoạt động</th><th>Thời gian (UTC)</th></tr></thead><tbody>{activities.map(item => <tr key={item.id}><td>{item.action}</td><td>{item.created_at}</td></tr>)}</tbody></table> : <div className="empty-state"><span className="empty-icon"><HistoryIcon size={30}/></span><h2>{overview ? 'Chưa có hoạt động được ghi nhận' : 'Chưa kết nối lịch sử'}</h2><p>{overview ? 'Nhật ký nghiệp vụ sẽ được bổ sung cùng các module ở phase tiếp theo.' : 'Mở ứng dụng desktop để đọc nhật ký SQLite.'}</p></div>}</section>; }

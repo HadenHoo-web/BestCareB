@@ -1,0 +1,17 @@
+CREATE TABLE accounts (id TEXT PRIMARY KEY, name TEXT NOT NULL CHECK(length(trim(name)) > 0), notes TEXT NOT NULL DEFAULT '', avatar_path TEXT, connection_status TEXT NOT NULL DEFAULT 'unconfirmed' CHECK(connection_status IN ('unconfirmed','confirmed')), created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP);
+CREATE TABLE groups (id TEXT PRIMARY KEY, url TEXT NOT NULL UNIQUE, facebook_id TEXT UNIQUE, name TEXT NOT NULL, description TEXT NOT NULL DEFAULT '', topic TEXT NOT NULL DEFAULT '', rules TEXT NOT NULL DEFAULT '', advertising TEXT NOT NULL DEFAULT 'unknown' CHECK(advertising IN ('unknown','allowed','prohibited')), favorite INTEGER NOT NULL DEFAULT 0 CHECK(favorite IN (0,1)), created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP);
+CREATE TABLE account_groups (account_id TEXT NOT NULL REFERENCES accounts(id) ON DELETE CASCADE, group_id TEXT NOT NULL REFERENCES groups(id) ON DELETE CASCADE, membership TEXT NOT NULL DEFAULT 'unconfirmed' CHECK(membership IN ('unconfirmed','joined','not_joined')), PRIMARY KEY(account_id,group_id));
+CREATE TABLE content_templates (id TEXT PRIMARY KEY, title TEXT NOT NULL, body TEXT NOT NULL, hashtags TEXT NOT NULL DEFAULT '', created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP);
+CREATE TABLE media_assets (id TEXT PRIMARY KEY, path TEXT NOT NULL UNIQUE, mime_type TEXT NOT NULL, created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP);
+CREATE TABLE campaigns (id TEXT PRIMARY KEY, name TEXT NOT NULL, objective TEXT NOT NULL DEFAULT '', audience TEXT NOT NULL DEFAULT '', starts_at TEXT, ends_at TEXT, status TEXT NOT NULL DEFAULT 'draft' CHECK(status IN ('draft','active','paused','completed')), notes TEXT NOT NULL DEFAULT '', created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP, CHECK(ends_at IS NULL OR starts_at IS NULL OR ends_at >= starts_at));
+CREATE TABLE campaign_groups (campaign_id TEXT NOT NULL REFERENCES campaigns(id) ON DELETE CASCADE, group_id TEXT NOT NULL REFERENCES groups(id) ON DELETE RESTRICT, PRIMARY KEY(campaign_id,group_id));
+CREATE TABLE campaign_posts (id TEXT PRIMARY KEY, campaign_id TEXT NOT NULL, group_id TEXT NOT NULL, content TEXT NOT NULL, media_id TEXT REFERENCES media_assets(id) ON DELETE SET NULL, status TEXT NOT NULL DEFAULT 'DRAFT' CHECK(status IN ('DRAFT','READY','REVIEWED','OPENED','USER_CONFIRMED','COMPLETED')), post_url TEXT, confirmed_at TEXT, notes TEXT NOT NULL DEFAULT '', created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP, FOREIGN KEY(campaign_id,group_id) REFERENCES campaign_groups(campaign_id,group_id) ON DELETE CASCADE, CHECK(status NOT IN ('USER_CONFIRMED','COMPLETED') OR confirmed_at IS NOT NULL));
+CREATE TABLE activity_logs (id INTEGER PRIMARY KEY AUTOINCREMENT, post_id TEXT REFERENCES campaign_posts(id) ON DELETE SET NULL, action TEXT NOT NULL, created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP);
+CREATE TABLE app_settings (key TEXT PRIMARY KEY, value TEXT NOT NULL);
+CREATE INDEX idx_groups_topic ON groups(topic);
+CREATE INDEX idx_account_groups_group ON account_groups(group_id);
+CREATE INDEX idx_campaign_groups_group ON campaign_groups(group_id);
+CREATE INDEX idx_posts_status ON campaign_posts(status);
+CREATE INDEX idx_posts_campaign ON campaign_posts(campaign_id,group_id);
+CREATE INDEX idx_activity_date ON activity_logs(created_at);
+INSERT INTO app_settings(key,value) VALUES ('theme','light');
