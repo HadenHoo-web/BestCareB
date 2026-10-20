@@ -1,0 +1,309 @@
+/* FB Manager AI — Floating Automation Panel */
+
+#fb-manager-robot-panel {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: 340px;
+  background: #ffffff;
+  color: #263c3b;
+  border-radius: 14px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.22), 0 0 0 1px rgba(22, 115, 104, 0.25);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-size: 13px;
+  z-index: 2147483647;
+  overflow: hidden;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+#fb-manager-robot-panel.minimized {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+#fb-manager-robot-panel.minimized .fb-robot-body,
+#fb-manager-robot-panel.minimized .fb-robot-footer {
+  display: none !important;
+}
+
+.fb-robot-header {
+  background: linear-gradient(135deg, #167368 0%, #0e4e46 100%);
+  color: #ffffff;
+  padding: 12px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  user-select: none;
+}
+
+.fb-robot-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.fb-robot-badge {
+  background: rgba(255, 255, 255, 0.2);
+  font-size: 9px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.fb-robot-controls {
+  display: flex;
+  gap: 4px;
+}
+
+.fb-robot-icon-btn {
+  background: transparent;
+  border: none;
+  color: #ffffff;
+  opacity: 0.8;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.fb-robot-icon-btn:hover {
+  opacity: 1;
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.fb-robot-body {
+  padding: 14px;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.fb-robot-step-card {
+  background: #f6f8f8;
+  border: 1px solid #e5ebea;
+  border-radius: 8px;
+  padding: 10px;
+  margin-bottom: 12px;
+}
+
+.fb-robot-status {
+  font-size: 12px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #167368;
+  margin-bottom: 4px;
+}
+
+.fb-robot-substatus {
+  font-size: 11px;
+  color: #7c8c8b;
+  line-height: 1.4;
+}
+
+.fb-robot-textarea {
+  width: 100%;
+  box-sizing: border-box;
+  min-height: 80px;
+  border: 1px solid #d2dedb;
+  border-radius: 6px;
+  padding: 8px;
+  font-family: inherit;
+  font-size: 12px;
+  resize: vertical;
+  margin-bottom: 10px;
+  outline: none;
+  color: #263c3b;
+  background: #ffffff;
+}
+
+.fb-robot-textarea:focus {
+  border-color: #167368;
+  box-shadow: 0 0 0 2px rgba(22, 115, 104, 0.2);
+}
+
+.fb-robot-options {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 12px;
+  font-size: 11px;
+  color: #4f6361;
+}
+
+.fb-robot-check {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+}
+
+/* ── Khu vực đính kèm hình ảnh ── */
+.fb-robot-media-section {
+  margin-bottom: 12px;
+}
+
+.fb-robot-media-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 11px;
+  font-weight: 600;
+  color: #4f6361;
+  margin-bottom: 6px;
+}
+
+.fb-robot-media-count {
+  background: #e5ebea;
+  color: #167368;
+  padding: 1px 6px;
+  border-radius: 10px;
+  font-size: 10px;
+  font-weight: 500;
+}
+
+.fb-robot-dropzone {
+  border: 1.5px dashed #a3b8b5;
+  border-radius: 8px;
+  padding: 8px;
+  background: #f8faf9;
+  cursor: pointer;
+  transition: all 0.2s;
+  min-height: 44px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.fb-robot-dropzone:hover,
+.fb-robot-dropzone.dragover {
+  border-color: #167368;
+  background: #eef5f3;
+}
+
+.fb-robot-drop-prompt {
+  text-align: center;
+  font-size: 11px;
+  color: #667e7c;
+  padding: 4px;
+  user-select: none;
+}
+
+.fb-robot-thumbnails {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.fb-robot-thumb-item {
+  position: relative;
+  width: 48px;
+  height: 48px;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid #c9d6d4;
+  background: #ffffff;
+}
+
+.fb-robot-thumb-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.fb-robot-thumb-del {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.65);
+  color: #ffffff;
+  border: none;
+  font-size: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  padding: 0;
+}
+
+.fb-robot-thumb-del:hover {
+  background: #c15544;
+}
+
+.fb-robot-add-more-btn {
+  width: 48px;
+  height: 48px;
+  border-radius: 6px;
+  border: 1px dashed #a3b8b5;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  color: #667e7c;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.fb-robot-add-more-btn:hover {
+  border-color: #167368;
+  color: #167368;
+  background: #eef5f3;
+}
+
+.fb-robot-btn {
+  width: 100%;
+  padding: 10px 14px;
+  background: #167368;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 13px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: background 0.15s;
+}
+
+.fb-robot-btn:hover {
+  background: #115c53;
+}
+
+.fb-robot-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.fb-robot-btn.stop {
+  background: #c15544;
+}
+
+.fb-robot-btn.stop:hover {
+  background: #a24435;
+}
+
+.fb-robot-footer {
+  padding: 8px 14px;
+  background: #eff5f3;
+  border-top: 1px solid #e5ebea;
+  font-size: 10px;
+  color: #7c8c8b;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}

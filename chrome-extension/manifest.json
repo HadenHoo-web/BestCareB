@@ -1,0 +1,30 @@
+{
+  "manifest_version": 3,
+  "name": "FB Manager AI — Robot & Group Manager",
+  "version": "1.0.0",
+  "description": "Tự động đăng bài và lưu Group/Fanpage cho FB Manager AI.",
+  "permissions": ["activeTab", "storage"],
+  "host_permissions": ["https://www.facebook.com/*"],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "FB Manager AI — Robot & Group Manager",
+    "default_icon": {
+      "16": "icon16.png",
+      "48": "icon48.png",
+      "128": "icon128.png"
+    }
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://www.facebook.com/*"],
+      "js": ["content.js"],
+      "css": ["content.css"],
+      "run_at": "document_idle"
+    }
+  ],
+  "icons": {
+    "16": "icon16.png",
+    "48": "icon48.png",
+    "128": "icon128.png"
+  }
+}

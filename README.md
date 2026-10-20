@@ -1,6 +1,6 @@
 # FB Manager AI
 
-Ứng dụng desktop local-first cho macOS và Windows. **Bản Foundation / Phase 1**; chưa phải sản phẩm đầy đủ.
+Ứng dụng desktop local-first cho macOS và Windows.
 
 ## Chạy development
 
@@ -30,12 +30,18 @@ npm run tauri dev
 - Backend Rust sử dụng rusqlite bundled: database tại app data directory; migration version 1 trong transaction, khóa ngoại và constraints.
 - 10 bảng theo yêu cầu. Frontend chỉ được gọi ba command cụ thể, không chạy SQL tự do.
 - Dashboard đọc số liệu thật từ database; không seed dữ liệu mẫu.
+- Quản lý tài khoản: thêm, sửa, xóa nhiều, tìm kiếm và xác nhận trạng thái kết nối do người dùng cung cấp.
+- Quản lý Facebook Group: thêm/sửa/xóa nhiều, tìm kiếm, lọc chủ đề/yêu thích, chuẩn hóa URL, ngăn URL trùng, nhập CSV và xuất trang đang xem.
+- Mở Group trong trình duyệt mặc định theo thao tác bấm chủ động của người dùng. Ứng dụng không tự đăng bài và không can thiệp phiên đăng nhập Facebook.
 
-## Chưa triển khai
+## Hoàn thành theo phase
 
-Phase 2: CRUD tài khoản/nhóm, CSV, chuẩn hóa URL, tìm kiếm/lọc, bảng lớn.
-Phase 3: OpenAI và kho API key của hệ điều hành, AI demo, media, nội dung, chiến dịch, PublishProvider và luồng xác nhận đăng.
-Phase 4: backup/restore, updater, GitHub Actions/Release, ký mã, notarization và installer được kiểm chứng đa nền tảng.
+- Phase 1: nền tảng Tauri, UI desktop và SQLite.
+- Phase 2: Account/Group Manager, CSV, tìm kiếm và lọc.
+- Phase 3: AI demo/OpenAI, thư viện nội dung, chiến dịch và workflow xác nhận đăng.
+- Phase 4: backup/restore SQLite, export báo cáo, CI/release workflow và hướng dẫn test.
+
+Media library, PublishProvider OAuth Fanpage, URL/ghi chú riêng cho từng campaign post và auto-update endpoint thực tế vẫn cần triển khai/cấu hình. Signing, notarization và installer đa nền tảng được workflow chuẩn bị nhưng phải chạy trên GitHub Actions với certificate của bạn để được xác minh.
 
 Không có tự động đăng Facebook, thu thập thông tin đăng nhập hoặc đọc phiên trình duyệt. Các nút tính năng chưa hỗ trợ bị vô hiệu hóa hoặc màn hình ghi rõ phase dự kiến.
 
@@ -76,5 +82,5 @@ npm run tauri build -- --target x86_64-pc-windows-msvc --bundles msi
 
 `src/app` routing và theme; `src/layouts` desktop shell; `src/modules` màn hình nghiệp vụ; `src/components/ui` primitive UI; `src/services` IPC; `src/stores` Zustand; `src/types` hợp đồng dữ liệu; `src-tauri/src` Rust; `src-tauri/migrations` SQL; `tests` kiểm thử; `docs` tiến độ và danh sách file.
 
-Xem [báo cáo Phase 1](docs/PHASE_1.md) và [danh sách file](docs/FILES.md).
+Xem [hướng dẫn test](docs/TESTING.md), [báo cáo Phase 4](docs/PHASE_4.md) và [danh sách file](docs/FILES.md).
 # BestCareB
